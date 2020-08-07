@@ -10,6 +10,16 @@ The server can be run locally and also deployed to Heroku. You will need to regi
 
 2. Add as redirect uris both http://localhost:3000/auth/callback (for development) and <production_domain>/auth/callback (if you want to deploy your app somewhere).
 
+for development :
+
+run 
+
+```bash
+git update-index --assume-unchanged config/*
+```
+
+after clone in order to not commit your configuration to git.
+
 3. Set your HOST in `config/app.js`.
 
 4. Set your CLIENT_ID and CLIENT_SECRET in `config/auth.js`.
