@@ -20,6 +20,10 @@ class QueueManager {
     this.sort();
     this.save();
     this.onQueueChanged();
+    if (this.queue.length == 0) {
+      // callback for empty queue , before trying to play another track
+      this.onQueueEnded();
+    }
   }
 
   getPlayingContext() {

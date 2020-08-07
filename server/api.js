@@ -56,6 +56,25 @@ let globalSocket = null;
 
 let globalIo = null;
 
+function emmitChange(globalSocket, queueManager) {
+  globalSocket && globalSocket.emit('update queue', queueManager.getQueue());
+  globalSocket && globalSocket.broadcast.emit('update queue', queueManager.getQueue());
+}
+
+async function appendRecommendation(globalSocket, queueManager) {
+  const botRecommendation = await botUser.generateRecommendation(queueManager.playedHistory, getToken, spotifyApi);
+  if (botRecommendation !== null) {
+    queueManager.addItem(
+      new QueueItem({
+        track: botRecommendation,
+        user: botUser
+      }).toJSON()
+    );
+    emmitChange(globalSocket, queueManager);
+  }
+  return botRecommendation;
+}
+
 const queueManager = new QueueManager({
   onPlay: () => {
     const { track, user } = queueManager.getPlayingContext();
@@ -72,22 +91,10 @@ const queueManager = new QueueManager({
     });
   },
   onQueueChanged: () => {
-    globalSocket && globalSocket.emit('update queue', queueManager.getQueue());
-    globalSocket && globalSocket.broadcast.emit('update queue', queueManager.getQueue());
+    emmitChange(globalSocket, queueManager);
   },
   onQueueEnded: async () => {
-    globalSocket && globalSocket.emit('update queue', queueManager.getQueue());
-    globalSocket && globalSocket.broadcast.emit('update queue', queueManager.getQueue());
-
-    const botRecommendation = await botUser.generateRecommendation(queueManager.playedHistory, getToken, spotifyApi);
-    if (botRecommendation !== null) {
-      queueManager.addItem(
-        new QueueItem({
-          track: botRecommendation,
-          user: botUser
-        }).toJSON()
-      );
-    }
+    await appendRecommendation(globalSocket, queueManager);
   }
 });
 
@@ -210,8 +217,14 @@ const exportedApi = io => {
         } else {
           // remove user from users
           users.splice(userIndex, 1);
-          socket.emit('update users', users.map(u => u.user));
-          socket.broadcast.emit('update users', users.map(u => u.user));
+          socket.emit(
+            'update users',
+            users.map(u => u.user)
+          );
+          socket.broadcast.emit(
+            'update users',
+            users.map(u => u.user)
+          );
         }
       }
     });
