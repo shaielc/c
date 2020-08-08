@@ -133,6 +133,11 @@ const exportedApi = io => {
     }
   });
 
+  const env = process.env.NODE_ENV || 'dev';
+  if (env == 'dev') {
+    api.get('/play-next', (req, res) => {});
+  }
+
   // web socket interface!
   io.on('connection', socket => {
     globalSocket = socket;

@@ -1,6 +1,9 @@
 import React from 'react';
 
 export default props => {
-  const className = props.className ? 'btn btn--styled ' + props.className : 'btn btn--styled';
+  let className = props.className ? 'btn btn--styled ' + props.className : 'btn btn--styled';
+  if (props.active) {
+    className += ' active';
+  }
   return <button {...props} className={className}></button>;
 };
