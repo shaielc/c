@@ -7,6 +7,7 @@ const AuthConfig = require('../config/auth');
 const Bot = require('./models/Bot');
 const QueueItem = require('./models/QueueItem');
 const QueueManager = require('./models/QueueManager');
+const { time } = require('console');
 
 const spotifyApi = new SpotifyWebApi({
   clientId: AuthConfig.CLIENT_ID,
@@ -134,8 +135,22 @@ const exportedApi = io => {
   });
 
   const env = process.env.NODE_ENV || 'dev';
-  if (env == 'dev') {
-    api.get('/play-next', (req, res) => {});
+  if (env === 'dev') {
+    let lastManual = null;
+    api.get('/play-next', (req, res) => {
+      //using from browser seems to be called multiple times
+      let currentTime = Date.now();
+
+      if (currentTime - lastManual < 500) {
+        res.json({ Error: 'To many requests' });
+        lastManual = currentTime;
+        return;
+      }
+
+      lastManual = currentTime;
+      queueManager.play('Manual');
+      res.json(queueManager.playingContext);
+    });
   }
 
   // web socket interface!

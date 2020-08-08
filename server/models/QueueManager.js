@@ -14,6 +14,7 @@ class QueueManager {
     this.getToken = options.getToken;
     this.spotifyApi = options.spotifyApi;
     this.playedHistory = [];
+    this.currentTimeout = null;
   }
 
   handleQueueChanged() {
@@ -49,7 +50,7 @@ class QueueManager {
     this.queue.push(queueItem);
     this.handleQueueChanged();
     if (this.playingContext.track === null) {
-      this.play();
+      this.play('Add item');
     }
   }
 
@@ -62,11 +63,17 @@ class QueueManager {
   }
 
   init() {
-    this.play();
+    this.play('init');
   }
 
-  play() {
+  play(msg) {
+    if (this.currentTimeout !== null) {
+      clearTimeout(this.currentTimeout);
+    }
+
+    console.log('api.js >', msg);
     console.log('api.js > play');
+
     if (this.queue.length > 0) {
       console.log('api.js > play has queue');
       // something to play!
@@ -82,8 +89,9 @@ class QueueManager {
         track: queueItem.track,
         user: queueItem.user
       });
-      setTimeout(() => {
-        this.play();
+
+      this.currentTimeout = setTimeout(() => {
+        this.play('Timeout');
       }, 2000 + queueItem.track.duration_ms);
       this.onPlay();
     } else {
@@ -103,9 +111,13 @@ class QueueManager {
     if (index === -1) return false;
     const voters = this.queue[index].voters;
     if (voters) {
-      const userVotes = voters.filter(v => v.id === user.id);
-      if (userVotes.length === 0) {
+      const user_index = voters.findIndex(v => v.id === user.id);
+      if (user_index === -1) {
         this.queue[index].voters.push(user);
+        this.handleQueueChanged();
+        return true;
+      } else {
+        this.queue[index].voters.splice(user_index, 1);
         this.handleQueueChanged();
         return true;
       }
