@@ -41,6 +41,14 @@ class QueueManager {
       if (diffVoters !== 0) {
         return diffVoters;
       } else {
+        let a_is_robot = a.user.type === 'robot';
+        let b_is_robot = b.user.type === 'robot';
+        if (a_is_robot && !b_is_robot) {
+          return 1;
+        }
+        if (!a_is_robot && b_is_robot) {
+          return -1;
+        }
         return a.queuedTimestamp - b.queuedTimestamp;
       }
     });
