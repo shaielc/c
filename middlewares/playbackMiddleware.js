@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 
-import { PLAY_TRACK, UNMUTE_PLAYBACK } from '../constants/ActionTypes';
+import { PLAY_TRACK, UNMUTE_PLAYBACK, MUTE_PLAYBACK } from '../constants/ActionTypes';
 import { playTrack, playTrackSuccess } from '../actions/playbackActions';
 import { fetchAvailableDevicesError, fetchAvailableDevicesSuccess } from '../actions/devicesActions';
 
@@ -36,6 +36,13 @@ export default store => next => action => {
       }
       break;
     }
+    case MUTE_PLAYBACK:
+      fetch(`${SPOTIFY_API_BASE}/me/player/pause`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${store.getState().session.access_token}`
+        }
+      });
     case UNMUTE_PLAYBACK: {
       const { track, user, position, startTime } = store.getState().playback;
       const currentPosition = Date.now() - startTime + position;
