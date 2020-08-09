@@ -4,7 +4,7 @@ import StyledButton from '../StyledButton';
 export default ({ item, session, onRemoveItem, onVote }) => {
   const voteUp =
     item.voters && session.user ? (
-      item.voters.filter(v => v.id === session.user.id).length === 0 ? (
+      item.voters.filter(v => v && v.id === session.user.id).length === 0 ? (
         <StyledButton onClick={onVote}>▲</StyledButton>
       ) : (
         <StyledButton onClick={onVote} active={true}>
