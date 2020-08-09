@@ -62,6 +62,10 @@ function emmitChange(globalSocket, queueManager) {
   globalSocket && globalSocket.broadcast.emit('update queue', queueManager.getQueue());
 }
 
+async function getRecommendation(queueManager) {
+  return await botUser.generateRecommendation(queueManager.playedHistory, getToken, spotifyApi);
+}
+
 async function appendRecommendation(globalSocket, queueManager) {
   const botRecommendation = await botUser.generateRecommendation(queueManager.playedHistory, getToken, spotifyApi);
   if (botRecommendation !== null) {
@@ -117,6 +121,32 @@ const exportedApi = io => {
 
   api.get('/queue', (req, res) => {
     res.json(queueManager.queue);
+  });
+
+  api.get('/suggest', (req, res) => {
+    getRecommendation(queueManager)
+      .then(item =>
+        res.json(
+          new QueueItem({
+            track: item,
+            user: botUser
+          }).toJSON()
+        )
+      )
+      .catch(reason => res.status(500).json({ Error: 500 }));
+  });
+
+  api.get('/add-suggestion', (req, res) => {
+    appendRecommendation(globalSocket, queueManager)
+      .then(item =>
+        res.json(
+          new QueueItem({
+            track: item,
+            user: botUser
+          }).toJSON()
+        )
+      )
+      .catch(reason => res.status(500).json({ Error: 500 }));
   });
 
   api.get('/users', (req, res) => {

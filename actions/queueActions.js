@@ -10,6 +10,9 @@ export const queueRemoveTrack = id => ({
   type: types.QUEUE_REMOVE_TRACK,
   id
 });
+export const queuAddSuggestion = () => ({ type: types.QUEUE_SUGGEST });
 
 export const fetchQueue = () => dispatch =>
-  fetch(`${Config.HOST}/api/queue`).then(res => res.json()).then(res => dispatch(updateQueue(res)));
+  fetch(`${Config.HOST}/api/queue`)
+    .then(res => res.json())
+    .then(res => dispatch(updateQueue(res)));

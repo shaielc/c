@@ -10,6 +10,7 @@ import { socketMiddleware } from '../middlewares/socketMiddleware';
 import loggerMiddleware from '../middlewares/loggerMiddleware';
 import socketMiddlewareDefault from '../middlewares/socketMiddleware';
 import searchMiddleware from '../middlewares/searchMiddleware';
+import queueMiddleware from '../middlewares/queueMiddleware';
 
 import { load } from '../actions/sessionActions';
 
@@ -23,6 +24,7 @@ export const initStore = (initialState = {}) => {
       socketMiddleware,
       playbackMiddleware,
       devicesMiddleware,
+      queueMiddleware,
       loggerMiddleware,
       searchMiddleware
     )

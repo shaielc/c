@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { searchTracks, searchTracksReset } from '../actions/searchActions';
-import { queueTrack } from '../actions/queueActions';
+import { queueTrack, queuAddSuggestion } from '../actions/queueActions';
+
+import DarkButtonStyle from './ButtonDarkStyle';
+import ButtonStyle from './ButtonStyle';
+import StyledButton from './StyledButton';
 
 class ResultsList extends Component {
   render() {
@@ -23,15 +27,15 @@ class ResultsList extends Component {
           .add-to-queue__search-results-item--focused {
             background-color: #eee;
           }
-          .container{
+          .container {
             display: flex;
           }
-          .album-img{
-              width: 64;
-              padding-right: 1em;
+          .album-img {
+            width: 64;
+            padding-right: 1em;
           }
-          .flex-item{
-              flex-grow: 1;
+          .flex-item {
+            flex-grow: 1;
           }
 
           .song-name {
@@ -47,7 +51,7 @@ class ResultsList extends Component {
             <li key={r.id} className={className} onClick={() => this.props.onSelect(r.id)}>
               <div className="container">
                 <div className="album-img">
-                  <img src={r.album.images[2].url}/>
+                  <img src={r.album.images[2].url} />
                 </div>
                 <div className="flex-item">
                   <div className="song-name">{r.name}</div>
@@ -129,7 +133,7 @@ class AddToQueue extends Component {
   };
 
   render() {
-    const placeholder = this.props.intl.formatMessage({id: 'queue.add'});
+    const placeholder = this.props.intl.formatMessage({ id: 'queue.add' });
     const results = this.props.search.results;
     return (
       <div className="add-to-queue" onBlur={this.handleBlur}>
@@ -139,6 +143,9 @@ class AddToQueue extends Component {
             width: 400px;
           }
         `}</style>
+        <style jsx>{ButtonStyle}</style>
+        <style jsx>{DarkButtonStyle}</style>
+
         <input
           className="add-to-queue__input"
           placeholder={placeholder}
@@ -147,6 +154,14 @@ class AddToQueue extends Component {
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
         />
+        <StyledButton
+          onClick={() => {
+            console.log('click');
+            this.props.queuAddSuggestion();
+          }}
+        >
+          <FormattedMessage id="queue.suggest"></FormattedMessage>
+        </StyledButton>
         {results && <ResultsList results={results} onSelect={this.handleSelectElement} focus={this.state.focus} />}
       </div>
     );
@@ -156,7 +171,8 @@ class AddToQueue extends Component {
 const mapDispatchToProps = dispatch => ({
   queueTrack: text => dispatch(queueTrack(text)),
   searchTracks: query => dispatch(searchTracks(query)),
-  searchTracksReset: () => dispatch(searchTracksReset())
+  searchTracksReset: () => dispatch(searchTracksReset()),
+  queuAddSuggestion: () => dispatch(queuAddSuggestion())
 });
 
 const mapStateToProps = state => ({
