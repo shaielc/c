@@ -1,13 +1,13 @@
 import React from 'react';
-import Room from './Room';
+import Room from './Rooms/Room';
 
 export default ({ rooms }) => {
   console.log(rooms);
   return (
-    <ul>
+    <tbody>
       {rooms.map(() => (
         <Room></Room>
       ))}
-    </ul>
+    </tbody>
   );
 };

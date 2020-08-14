@@ -1,13 +1,13 @@
 import React from 'react';
 import Layout from '../components/MyLayout';
-import RoomsList from '../components/Rooms/RoomList';
+import RoomsList from '../components/RoomList';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from '../store/store';
 import PageWithIntl from '../components/PageWithIntl';
 
 const placeholder = [1, 2, 3];
 
-export const Lobby = ({ rooms }) => {
+export const Lobby = () => {
   return (
     <Layout>
       <RoomsList rooms={placeholder} />
