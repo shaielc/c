@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import ButtonStyle from './ButtonStyle';
-import ButtonDarkStyle from './ButtonDarkStyle';
+import ButtonStyle from '../styles/ButtonStyle';
+import ButtonDarkStyle from '../styles/ButtonDarkStyle';
 import StyledButton from './StyledButton';
 import { fetchAvailableDevices, transferPlaybackToDevice } from '../actions/devicesActions';
 import { getIsFetchingDevices } from '../reducers';

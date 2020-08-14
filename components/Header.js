@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { login } from '../actions/sessionActions';
 import { mutePlayback, unmutePlayback } from '../actions/playbackActions';
-import ButtonStyle from './ButtonStyle';
-import ButtonDarkStyle from './ButtonDarkStyle';
+import ButtonStyle from '../styles/ButtonStyle';
+import ButtonDarkStyle from '../styles/ButtonDarkStyle';
 import StyledButton from './StyledButton';
 
 const linkStyle = {
@@ -36,6 +36,11 @@ const Header = ({ session, muted, mutePlayback, unmutePlayback, login }) => (
     <Link href="/about">
       <a style={linkStyle}>
         <FormattedMessage id="about" />
+      </a>
+    </Link>
+    <Link href="/lobby">
+      <a style={linkStyle}>
+        <FormattedMessage id="lobby" />
       </a>
     </Link>
     {session.user ? (

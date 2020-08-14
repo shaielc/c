@@ -1,9 +1,9 @@
 import React from 'react';
-import Track from './QueueItem/Track';
-import UserQueueFragment from './QueueItem/UserQueueFragment';
+import Track from './QueueItem/TrackQueueFragment';
+import User from './QueueItem/UserQueueFragment';
 
-import ButtonStyle from './ButtonStyle';
-import ButtonDarkStyle from './ButtonDarkStyle';
+import ButtonStyle from '../styles/ButtonStyle';
+import ButtonDarkStyle from '../styles/ButtonDarkStyle';
 
 export default ({ index, item, session, onRemoveItem, onVote }) => {
   return (
@@ -11,7 +11,7 @@ export default ({ index, item, session, onRemoveItem, onVote }) => {
       <style jsx>{ButtonStyle}</style>
       <style jsx>{ButtonDarkStyle}</style>
       <Track index={index} item={item} />
-      <UserQueueFragment item={item} session={session} onRemoveItem={onRemoveItem} onVote={onVote} />
+      <User item={item} session={session} onRemoveItem={onRemoveItem} onVote={onVote} />
     </tr>
   );
 };

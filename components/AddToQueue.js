@@ -5,8 +5,8 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import { searchTracks, searchTracksReset } from '../actions/searchActions';
 import { queueTrack, queuAddSuggestion } from '../actions/queueActions';
 
-import DarkButtonStyle from './ButtonDarkStyle';
-import ButtonStyle from './ButtonStyle';
+import DarkButtonStyle from '../styles/ButtonDarkStyle';
+import ButtonStyle from '../styles//ButtonStyle';
 import StyledButton from './StyledButton';
 
 class ResultsList extends Component {
