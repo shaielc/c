@@ -22,6 +22,12 @@ export default Page => {
       // Get the `locale` and `messages` from the request object on the server.
       // In the browser, use the same values that the server serialized.
       const { req } = context;
+
+      //????
+      if (req === undefined) {
+        return { ...props };
+      }
+
       // todo: for some reason it is not props.initialProps, but props in the example
       const { locale, messages } = req || window.__NEXT_DATA__.props.initialProps;
 
