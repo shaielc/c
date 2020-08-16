@@ -7,6 +7,8 @@ const AuthConfig = require('../config/auth');
 const Bot = require('./models/Bot');
 const QueueItem = require('./models/QueueItem');
 const QueueManager = require('./models/QueueManager');
+const Room = require('./models/Room');
+const RoomManager = require('./models/RoomManager');
 const { time } = require('console');
 
 const spotifyApi = new SpotifyWebApi({
@@ -103,6 +105,10 @@ const queueManager = new QueueManager({
   }
 });
 
+const roomManager = new RoomManager({
+  rooms: require('../placeholders/rooms')
+});
+
 queueManager.read();
 queueManager.init();
 
@@ -113,6 +119,10 @@ const exportedApi = io => {
 
   api.get('/', (req, res) => {
     res.json({ version });
+  });
+
+  api.get('/rooms', (req, res) => {
+    res.json(roomManager.rooms);
   });
 
   api.get('/now-playing', (req, res) => {
