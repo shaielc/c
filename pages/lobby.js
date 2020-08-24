@@ -4,16 +4,24 @@ import RoomsList from '../components/RoomList';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from '../store/store';
 import PageWithIntl from '../components/PageWithIntl';
+import { fetchRooms } from '../actions/roomsActions';
 
-const placeholder = [1, 2, 3];
+class Lobby extends React.Component {
+  static getInitialProps({ req, store, isServer }) {
+    return Promise.all([store.dispatch(fetchRooms())]);
+  }
+  render() {
+    return (
+      <Layout>
+        <RoomsList rooms={this.props.rooms} />
+      </Layout>
+    );
+  }
+}
 
-export const Lobby = () => {
-  return (
-    <Layout>
-      <RoomsList rooms={placeholder} />
-    </Layout>
-  );
-};
+const mapStateToProps = state => ({
+  rooms: state.rooms
+});
 
 //probabaly needs changes
-export default withRedux(initStore, null, null)(PageWithIntl(Lobby));
+export default withRedux(initStore, mapStateToProps, null)(PageWithIntl(Lobby));

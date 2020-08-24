@@ -4,10 +4,12 @@ import Room from './Rooms/Room';
 export default ({ rooms }) => {
   console.log(rooms);
   return (
-    <tbody>
-      {rooms.map(() => (
-        <Room></Room>
-      ))}
-    </tbody>
+    <table>
+      <tbody>
+        {rooms.map(room => (
+          <Room room={room}></Room>
+        ))}
+      </tbody>
+    </table>
   );
 };

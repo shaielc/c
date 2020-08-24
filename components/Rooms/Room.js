@@ -2,11 +2,22 @@ import React from 'react';
 import RoomMetaData from './RoomMetaData';
 import Track from './RoomTrack';
 
-export default ({ room, currently_playing_id }) => {
+function getName(room) {
+  if (!room) {
+    return;
+  }
+  return room.name;
+}
+
+function getTrack(room) {
+  return room.currentlyPlaying;
+}
+
+export default ({ room }) => {
   return (
     <tr>
-      <RoomMetaData room={room}></RoomMetaData>
-      <Track></Track>
+      <RoomMetaData name={getName(room)}></RoomMetaData>
+      <Track track={getTrack(room)}></Track>
     </tr>
   );
 };

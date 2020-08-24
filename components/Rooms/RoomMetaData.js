@@ -1,16 +1,10 @@
 import React from 'react';
 import GetRoomNamePlaceholder from '../../placeholders/room_names';
 
-function getName(id) {
-  if (!id) {
-    return GetRoomNamePlaceholder();
-  }
-}
-
-export default ({ id }) => {
+export default ({ name }) => {
   return (
     <React.Fragment>
-      <td>{getName(id)}</td>
+      <td>{name}</td>
     </React.Fragment>
   );
 };
