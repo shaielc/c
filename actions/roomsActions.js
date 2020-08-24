@@ -20,6 +20,7 @@ export const deleteRoom = (user, room) => ({
   user,
   room
 });
+export const updateRooms = lobby => ({ type: types.UPDATE_ROOMS, data: lobby });
 
 export const fetchRooms = () => dispatch =>
   fetch(`${Config.HOST}/api/rooms`)
