@@ -15,7 +15,7 @@ function getTrack(room) {
 
 export default ({ room }) => {
   return (
-    <tr>
+    <tr onClick={() => console.log('clicked room: ', getName(room), ' (id: ', room.id, ')')}>
       <RoomMetaData name={getName(room)}></RoomMetaData>
       <Track track={getTrack(room)}></Track>
     </tr>
