@@ -27,6 +27,7 @@ export default ({ rooms }) => {
           :global(tr:hover) {
             background-color: ${theme.Hover};
             color: ${theme.Middle};
+            cursor: pointer;
           }
           :global(td) {
             border: inherit;
